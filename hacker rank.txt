@@ -1,0 +1,152 @@
+Resolved 100+ customer inquiries per month related to billing, account access, and authentication.
+Identified root causes of customer issues in 80% of cases, resulting in improved resolution times by 15%.
+Analyzed market size (120mmt) and trends within the edible oil industry to identify growth opportunities (5% YoY).
+Collaborated with other customer support members to maintain a consistent and high-quality level of support.
+
+Highly motivated and customer-centric professional with 1+ years of experience resolving technical inquiries and providing exceptional support. Skilled in identifying root causes of customer issues and translating them into actionable insights for process improvement. Eager to leverage cloud computing knowledge and strong analytical skills to excel in a Technical Customer Service Associate role at AWS.
+
+Skills
+
+Technical Skills: Cloud Computing (Azure), AWS (Basic Knowledge)
+Customer Service Skills: Customer Service, Technical Support, Account Management, Billing
+Analytical Skills: Problem Solving, Data Analysis
+Communication Skills: Excellent Communication (Written & Verbal)
+Computer Skills: MS Office Suite
+Other Skills: Attention to Detail, Ethical Conduct
+Certificate of Participation - Workshop on Cloud Computing on Microsoft Azure (IEEE)
+Certificate of Participation - Emerging Technologies Seminar (IEEE)
+Certificate of Participation - Workshop on Ethical Hacking (IIT Jodhpur)
+Recognized Volunteer - Web Development Workshop (IEEE Delhi Section) & Game Development Workshop (Coding Blocks)
+
+
+Read abou these things
+Optimization techniques, such as indexing, denormalization, and materialized views, can be applied to improve query performance. Indexes provide faster data access, denormalization reduces the need for joins, and materialized views precompute and store query results for quicker retrieval. 📈
+
+Handling big data in RDBMS often requires integrating data from various sources, such as internal databases, external systems, or data streams. Extract, Transform, Load (ETL) processes are commonly employed to consolidate and transform data before loading it into the RDBMS. 🔄🔀💽
+Extraction involves gathering data from different sources, including structured databases, unstructured data files, APIs, or streaming platforms. Data is extracted in its raw form, ready for further processing. 📥📊📄
+Transformation includes cleaning, validating, and restructuring the data to conform to the target schema and business requirements. It involves data cleansing, aggregation, filtering, and normalization to ensure data quality and consistency. 🧹🔁🔍
+Load refers to the process of inserting transformed data into the RDBMS. This step involves mapping the transformed data to the appropriate tables and columns, performing any necessary data type conversions, and ensuring data integrity during the load process. 📥💾⚙️
+
+
+
+The first approach proposes a convenient representation of unstructured data storage. Extensive experiments show improved efficiency in RDBMS storage. ⚙️📊
+The second approach suggests using the JSON format to represent multivalued attributes and M:N relationships in relational databases. This allows for a flexible schema and storage of semi-structured data. 📝🔗
+
+
+
+
+
+
+
+SELECT CITY, LENGTH(CITY) FROM STATION ORDER BY LENGTH(CITY) ASC, CITY LIMIT 1;
+SELECT CITY, LENGTH(CITY) FROM STATION ORDER BY LENGTH(CITY) DESC, CITY LIMIT 1;
+
+(select city, length(city) as len
+from station 
+order by  length(city) desc
+limit 1)
+union 
+(select city,length(city) as len
+from station
+order by  length(city)
+ limit 1)
+
+
+with new as (select left(city,1) as city
+from station)
+select *,
+case
+when city = a then city
+else 0
+end as city_1
+from new
+
+
+with cte as (select 
+case 
+when left(city,1) = 'a' and right(city,1) = 'a' then city
+when left(city,1) = 'e' and right(city,1) = 'e' then city
+when left(city,1) = 'i' and right(city,1) = 'i' then city
+when left(city,1) = 'o' and right(city,1) = 'o' then city
+when left(city,1) = 'u' and right(city,1) = 'u' then city
+end as new
+from station)
+select new from cte 
+where new is not null
+order by new 
+
+select concat(name,'(',left(occupation,1),')')
+from occupations
+order by name
+
+
+(select concat(name,'(',left(occupation,1),')')
+from occupations
+order by name)
+union all
+(select concat("There are a total of " ,count(occupation),' ',lower(occupation),'s')
+from occupations
+group by occupation
+order by count(occupation) )
+
+/*Query 1 */
+SELECT 
+    CONCAT(Name,'(',LEFT(Occupation,1), ')' )as name_ocuppation 
+FROM OCCUPATIONS
+ORDER BY NAME ASC;
+
+/*Query 2 */
+SELECT 
+    CONCAT('There are a total of ', COUNT(Occupation), ' ', LOWER(Occupation),'s.') AS solution 
+FROM OCCUPATIONS 
+GROUP BY Occupation
+ORDER BY COUNT(Occupation)
+
+
+select
+case 
+when occupation = 'Doctor' then name end as new_doc,
+when occupation = 'Professor' then name end as new_prof,
+when occupation = 'Singer' then name end as new_sing,
+when occupation = 'Actor' then name end as new_act
+from occupations
+SELECT 
+    CASE WHEN occupation = 'Doctor' THEN name END AS new_doc,
+    CASE WHEN occupation = 'Professor' THEN name END AS new_prof,
+    CASE WHEN occupation = 'Singer' THEN name END AS new_sing,
+    CASE WHEN occupation = 'Actor' THEN name END AS new_act
+FROM occupations;
+order by name desc
+
+SELECT 
+    MAX(CASE WHEN occupation='Doctor' THEN name END) AS d,
+    MAX(CASE WHEN occupation='Professor' THEN name END) AS p,
+    MAX(CASE WHEN occupation='Singer' THEN name END) AS s,
+    MAX(CASE WHEN occupation='Actor' THEN name END) AS a
+FROM (
+        SELECT *, 
+        ROW_NUMBER() OVER(PARTITION BY occupation ORDER BY name) AS row_num
+        FROM Occupations) as T
+GROUP BY row_num
+ORDER BY row_num
+
+
+
+with new as (select *,
+row_number() over (partition by occupation order by occupation) as row num
+from occupations)
+
+
+
+
+
+with new as (select *,
+row_number() over (partition by occupation order by name) as row num
+from occupations)
+select 
+case when occupation = 'Doctor' then name end as d,
+case when occupation = 'Professor' then name end as p,
+case when occupation = 'Actor' then name end as a,
+case when occupation = 'Singer' then name end as s
+from new
+
