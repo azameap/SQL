@@ -5,6 +5,7 @@ CREATE TABLE cannes (
     Price DECIMAL(10, 2)
 );
 
+
 INSERT INTO cannes (ProductID, ProductName, Category, Price) VALUES
 (1, 'Mustard Oil', 'Edible Oil', 250.00),
 (2, 'Soybean Oil', 'Edible Oil', 200.00),
